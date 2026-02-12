@@ -1,4 +1,5 @@
 using Gtk;
+using UniversityWeatherApp.Core.Services;
 using UniversityWeatherApp.UI;
 using UniversityWeatherApp.UI.Styles;
 
@@ -25,6 +26,6 @@ class Program
 
     private static void SetupEssentials()
     {
-        StyleManager.Load();
+        StyleManager.Load(ResourceService.Instance);
     }
 }

@@ -6,6 +6,9 @@ namespace UniversityWeatherApp.UI;
 
 class MainWindow : Window
 {
+
+    private Dashboard _dashboard;
+
     public MainWindow() : base("University Weather App")
     {
         SetDefaultSize(
@@ -20,9 +23,8 @@ class MainWindow : Window
 
     private void SetupUI()
     {
-        Dashboard dashboard = new();
-
-        Add(dashboard);
+        _dashboard = new();
+        Add(_dashboard);
     }
 
     private void Window_DeleteEvent(object o, DeleteEventArgs a)
