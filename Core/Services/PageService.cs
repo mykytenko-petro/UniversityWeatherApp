@@ -1,17 +1,18 @@
 using Gtk;
+using UniversityWeatherApp.Core.UI;
 
 namespace UniversityWeatherApp.Core.Services;
 
 public class PageService
 {
-    private readonly Dictionary<Type, Box> Pages = new();
+    private readonly Dictionary<Type, Page> Pages = new();
     public Type CurrentPage {get; private set;}
 
     public void CreatePages(Type[] PageTypes, AppState appState)
     {
         foreach (Type type in PageTypes)
             // 
-            Pages.Add(type, (Box)Activator.CreateInstance(type, appState));
+            Pages.Add(type, (Page)Activator.CreateInstance(type, appState));
     }
 
     public void ChangePage(Type pageType, Window window)

@@ -14,10 +14,10 @@ public class ResourceService
         _assembly = Assembly.GetExecutingAssembly();
     }
 
-    // Lazily loads embedded .gtk.css files from the assembly.
-    // Lazy evaluation here is for simplicity, not performance.
-    public IEnumerable<string> GetCssText()
+    public string GetCssText()
     {
+        string fullCss = "";
+
         // Loop through all resource names ending with ".gtk.css"
         // LINQ makes this easier than manually checking each name
         foreach (var name in _assembly.GetManifestResourceNames()
@@ -32,8 +32,10 @@ public class ResourceService
             // "using" ensures the stream closes automatically at the end of this scope
 
             // Return the full CSS text of this file
-            yield return reader.ReadToEnd();
+            fullCss += reader.ReadToEnd();
         }
+
+        return fullCss;
     }
 
     // 

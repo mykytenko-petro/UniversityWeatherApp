@@ -9,7 +9,7 @@ class MainWindow : Window
 {
     private AppState _appState;
 
-    public MainWindow(AppState appState) : base("University Weather App")
+    public MainWindow(AppState appState) : base(WindowSettings.Name)
     {
         _appState = appState;
 

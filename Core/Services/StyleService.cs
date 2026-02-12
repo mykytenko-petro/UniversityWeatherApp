@@ -19,10 +19,7 @@ public class StyleService
         CssProvider cssProvider = new();
 
         // 
-        foreach (var text in _resourceService.GetCssText())
-        {
-            cssProvider.LoadFromData(text);
-        }
+        cssProvider.LoadFromData(_resourceService.GetCssText());
 
         // 
         StyleContext.AddProviderForScreen(

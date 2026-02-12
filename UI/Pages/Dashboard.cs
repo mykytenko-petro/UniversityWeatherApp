@@ -1,24 +1,30 @@
 using Gtk;
 using UniversityWeatherApp.Core;
 using UniversityWeatherApp.Core.UI;
+using UniversityWeatherApp.UI.Components.Dashboard;
 
 namespace UniversityWeatherApp.UI.Pages;
 
-public class Dashboard : Box
+public class Dashboard : Page
 {
-    private readonly GImage _background;
+    private GImage background;
+    private SidePanelComponent sidePanelComponent;
 
-    public Dashboard(AppState appState) : base(Orientation.Horizontal, 0)
+    public Dashboard(AppState appState) : base(appState)
     {
         StyleContext.AddClass("Dashboard");
-        Hexpand = true;
-        Vexpand = true;
+    }
 
-        _background = new("Background/Snow.png", appState.ResourceService)
+    protected override void Layout()
+    {
+        background = new("Background/Snow.png", _appState.ResourceService)
         {
             Hexpand = true,
             Vexpand = true
         };
-        Add(_background);
+        _overlay.Add(background);
+
+        sidePanelComponent = new();
+        _overlay.AddOverlay(sidePanelComponent);
     }
 }
