@@ -1,12 +1,14 @@
 using Gtk;
-using UniversityWeatherApp.Core.Services;
+using UniversityWeatherApp.Core;
 using UniversityWeatherApp.UI;
-using UniversityWeatherApp.UI.Styles;
+using UniversityWeatherApp.UI.Pages;
 
 namespace UniversityWeatherApp;
 
 class Program
 {
+    private static AppState _appState;
+
     [STAThread]
     public static void Main()
     {
@@ -15,9 +17,11 @@ class Program
         var app = new Application("org.UniversityWeatherApp.UniversityWeatherApp", GLib.ApplicationFlags.None);
         app.Register(GLib.Cancellable.Current);
 
+        _appState = new AppState();
+
         SetupEssentials();
 
-        var win = new MainWindow();
+        var win = new MainWindow(_appState);
         app.AddWindow(win);
 
         win.ShowAll();
@@ -25,7 +29,14 @@ class Program
     }
 
     private static void SetupEssentials()
-    {
-        StyleManager.Load(ResourceService.Instance);
+    {   
+        _appState.PageService.CreatePages(
+            new[]
+            {
+                typeof(Dashboard)
+            },
+            _appState
+        );
+        _appState.StyleService.LoadStyles();
     }
 }

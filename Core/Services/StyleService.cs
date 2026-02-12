@@ -1,19 +1,25 @@
 using Gtk;
-using UniversityWeatherApp.Core.Services;
 
-namespace UniversityWeatherApp.UI.Styles;
+namespace UniversityWeatherApp.Core.Services;
 
 /// <summary>
 /// 
 /// </summary>
-public static class StyleManager
+public class StyleService
 {
-    public static void Load(ResourceService resourceService)
+    private ResourceService _resourceService;
+
+    public StyleService(ResourceService resourceService)
+    {
+        _resourceService = resourceService;
+    }
+
+    public void LoadStyles()
     {
         CssProvider cssProvider = new();
 
         // 
-        foreach (var text in resourceService.GetCssText())
+        foreach (var text in _resourceService.GetCssText())
         {
             cssProvider.LoadFromData(text);
         }

@@ -7,9 +7,6 @@ namespace UniversityWeatherApp.Core.Services;
 
 public class ResourceService
 {
-    // singleton
-    public static ResourceService Instance {get;} = new();
-
     private readonly Assembly _assembly;
 
     public ResourceService()

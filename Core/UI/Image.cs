@@ -10,8 +10,8 @@ namespace UniversityWeatherApp.Core.UI;
 public class GImage : DrawingArea {
     private readonly Pixbuf originalPixbuf;
 
-    public GImage(string filePath)  {
-        originalPixbuf = ResourceService.Instance
+    public GImage(string filePath, ResourceService resourceService)  {
+        originalPixbuf = resourceService
             .GetImagePixbuf(filePath);
     }
 

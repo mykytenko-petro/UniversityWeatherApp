@@ -1,16 +1,18 @@
 using Gtk;
-using UniversityWeatherApp.Core.Config;
+using UniversityWeatherApp.Config;
+using UniversityWeatherApp.Core;
 using UniversityWeatherApp.UI.Pages;
 
 namespace UniversityWeatherApp.UI;
 
 class MainWindow : Window
 {
+    private AppState _appState;
 
-    private Dashboard _dashboard;
-
-    public MainWindow() : base("University Weather App")
+    public MainWindow(AppState appState) : base("University Weather App")
     {
+        _appState = appState;
+
         SetDefaultSize(
             WindowSettings.Width,
             WindowSettings.Height
@@ -18,13 +20,7 @@ class MainWindow : Window
 
         DeleteEvent += Window_DeleteEvent;
 
-        SetupUI();
-    }
-
-    private void SetupUI()
-    {
-        _dashboard = new();
-        Add(_dashboard);
+        _appState.PageService.ChangePage(typeof(Dashboard), this);
     }
 
     private void Window_DeleteEvent(object o, DeleteEventArgs a)

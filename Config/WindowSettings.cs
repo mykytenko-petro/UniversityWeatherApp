@@ -1,4 +1,4 @@
-namespace UniversityWeatherApp.Core.Config;
+namespace UniversityWeatherApp.Config;
 
 public static class WindowSettings
 {
