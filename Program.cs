@@ -1,42 +1,21 @@
-using Gtk;
-using UniversityWeatherApp.Core;
-using UniversityWeatherApp.UI;
-using UniversityWeatherApp.UI.Pages;
+﻿using Avalonia;
+using System;
 
 namespace UniversityWeatherApp;
 
-class Program
+sealed class Program
 {
-    private static AppState _appState;
-
+    // Initialization code. Don't use any Avalonia, third-party APIs or any
+    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
+    // yet and stuff might break.
     [STAThread]
-    public static void Main()
-    {
-        Application.Init();
+    public static void Main(string[] args) => BuildAvaloniaApp()
+        .StartWithClassicDesktopLifetime(args);
 
-        var app = new Application("org.UniversityWeatherApp.UniversityWeatherApp", GLib.ApplicationFlags.None);
-        app.Register(GLib.Cancellable.Current);
-
-        _appState = new AppState();
-
-        SetupEssentials();
-
-        var win = new MainWindow(_appState);
-        app.AddWindow(win);
-
-        win.ShowAll();
-        Application.Run();
-    }
-
-    private static void SetupEssentials()
-    {   
-        _appState.PageService.CreatePages(
-            new[]
-            {
-                typeof(Dashboard)
-            },
-            _appState
-        );
-        _appState.StyleService.LoadStyles();
-    }
+    // Avalonia configuration, don't remove; also used by visual designer.
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .WithInterFont()
+            .LogToTrace();
 }
