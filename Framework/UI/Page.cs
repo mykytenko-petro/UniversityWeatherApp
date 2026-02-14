@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 namespace UniversityWeatherApp.Framework.UI;
 
-public abstract class Page : UserControl
+public abstract class Page : Grid
 {
     protected Page() : base()
     {
