@@ -1,8 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
+using UniversityWeatherApp.Framework.UI.Mvvm;
 using UniversityWeatherApp.ViewModels;
 using UniversityWeatherApp.Views;
 
@@ -12,7 +12,7 @@ public partial class App : Application
 {
     public override void Initialize()
     {
-        // AvaloniaXamlLoader.Load(this);
+        DataTemplates.Add(new ViewLocator());
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -24,7 +24,7 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                // DataContext = new MainWindowViewModel(),
             };
         }
 
