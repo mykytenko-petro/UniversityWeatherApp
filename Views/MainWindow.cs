@@ -6,6 +6,8 @@ namespace UniversityWeatherApp.Views;
 
 public partial class MainWindow : Window
 {
+
+
     public MainWindow()
     {
         Width = WindowSettings.Width;
