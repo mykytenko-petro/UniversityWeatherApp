@@ -1,10 +1,8 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using UniversityWeatherApp.ViewModels;
 
-namespace UniversityWeatherApp;
+namespace UniversityWeatherApp.Framework.UI.Mvvm;
 
 /// <summary>
 /// Given a view model, returns the corresponding view if possible.

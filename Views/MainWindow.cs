@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using UniversityWeatherApp.Config;
+using UniversityWeatherApp.Views.Pages;
 
 namespace UniversityWeatherApp.Views;
 
@@ -6,11 +8,9 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        var textBlock = new TextBlock
-        {
-            Text = "2232 from avalonia without xaml"
-        };
+        Width = WindowSettings.Width;
+        Height = WindowSettings.Height;
 
-        Content = textBlock;
+        Content = new DashboardView();
     }
 }
