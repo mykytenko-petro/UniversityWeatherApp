@@ -6,6 +6,7 @@ using Avalonia.Layout;
 using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
 using Avalonia.Data;
+using Avalonia.Styling;
 
 namespace UniversityWeatherApp.Views.Pages;
 
@@ -23,6 +24,19 @@ public class DashboardView : Page
             Source = ResourceUtils.GetAssetBitmap("Background/Snow.png"),
             Stretch = Stretch.UniformToFill
         };
+    }
+
+    protected override void LayoutStyles()
+    {
+        Styles.Add(
+            new Style<TextBlock>()
+            {
+                Setters =
+                {
+                    new Setter(TextBlock.FontSizeProperty, 18.0)
+                }
+            }
+        );
     }
 
     protected override void Layout()
