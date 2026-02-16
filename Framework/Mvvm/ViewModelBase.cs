@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace UniversityWeatherApp.Framework.UI.Mvvm;
+namespace UniversityWeatherApp.Framework.Mvvm;
 
 public abstract class ViewModelBase : ObservableObject;

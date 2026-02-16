@@ -1,7 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using UniversityWeatherApp.Framework.UI.Mvvm;
+using UniversityWeatherApp.Framework.Mvvm;
 
 namespace UniversityWeatherApp.ViewModels.Pages;
 
-public partial class DashboardViewModel : ViewModelBase;
+public partial class DashboardViewModel : ViewModelBase
+{
+    [ObservableProperty]
+    private string _greet = "3323";
+}
