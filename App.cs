@@ -2,8 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
-using UniversityWeatherApp.Framework.UI.Mvvm;
-using UniversityWeatherApp.ViewModels;
+using UniversityWeatherApp.Framework.Mvvm;
 using UniversityWeatherApp.Views;
 
 namespace UniversityWeatherApp;

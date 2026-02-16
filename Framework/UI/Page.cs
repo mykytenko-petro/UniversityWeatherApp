@@ -1,13 +1,6 @@
-using Avalonia.Controls;
-
 namespace UniversityWeatherApp.Framework.UI;
 
-public abstract class Page : Grid
+public abstract class Page : ViewBase
 {
-    protected Page() : base()
-    {
-        Layout();
-    }
-
-    protected abstract void Layout();
+    protected Page() : base() { }
 }
