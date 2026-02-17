@@ -7,6 +7,8 @@ using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
 using Avalonia.Data;
 using Avalonia.Styling;
+using Avalonia;
+using UniversityWeatherApp.Framework.UI.Extensions;
 
 namespace UniversityWeatherApp.Views.Pages;
 
@@ -19,21 +21,38 @@ public class DashboardView : Page
 
     protected override void Setup()
     {
+        ColumnDefinitions = [
+            new ColumnDefinition(new GridLength(64, GridUnitType.Star)),
+            new ColumnDefinition(new GridLength(36, GridUnitType.Star))
+        ];
+    }
+
+    protected override void LayoutStyles()
+    {
         Background = new ImageBrush
         {
             Source = ResourceUtils.GetAssetBitmap("Background/Snow.png"),
             Stretch = Stretch.UniformToFill
         };
-    }
 
-    protected override void LayoutStyles()
-    {
         Styles.Add(
-            new Style<TextBlock>()
+            new Style(x => x.OfType<TextBlock>())
             {
                 Setters =
                 {
                     new Setter(TextBlock.FontSizeProperty, 18.0)
+                }
+            }
+        );
+
+        Styles.Add(
+            new Style(x => x.Class("SidePanel__ScrollViewer"))
+            {
+                Setters =
+                {
+                    new Setter(ScrollViewer.BorderBrushProperty,
+                               new SolidColorBrush(Color.FromArgb(36, 255, 255, 255))),
+                    new Setter(ScrollViewer.BorderThicknessProperty, new Thickness(5, 0, 0, 0)),
                 }
             }
         );
@@ -42,12 +61,9 @@ public class DashboardView : Page
     protected override void Layout()
     {
         // Side panel
-        Children.Add(
+        Add(
             new Grid()
-                .Width(526)
-                .HorizontalAlignment(HorizontalAlignment.Right)
-                .VerticalAlignment(VerticalAlignment.Stretch)
-
+                .SetGridColumn(1)
                 .Children(
                     new Border()
                         .Background(
