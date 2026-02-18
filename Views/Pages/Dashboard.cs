@@ -34,27 +34,31 @@ public class DashboardView : Page
             Source = ResourceUtils.GetAssetBitmap("Background/Snow.png"),
             Stretch = Stretch.UniformToFill
         };
+        
+        Styles.Add(
+            new Style(x => x.Class("Line"))
+                .Add(ScrollViewer.BorderBrushProperty, Brushes.White)
+                .Add(ScrollViewer.BorderThicknessProperty, new Thickness(0, 0, 0, 1))
+        );
 
         Styles.Add(
             new Style(x => x.OfType<TextBlock>())
-            {
-                Setters =
-                {
-                    new Setter(TextBlock.FontSizeProperty, 18.0)
-                }
-            }
+                .Add(TextBlock.FontSizeProperty, 18.0)
+                .Add(TextBlock.FontWeightProperty, FontWeight.Regular)
         );
 
         Styles.Add(
             new Style(x => x.Class("SidePanel__ScrollViewer"))
-            {
-                Setters =
-                {
-                    new Setter(ScrollViewer.BorderBrushProperty,
-                               new SolidColorBrush(Color.FromArgb(36, 255, 255, 255))),
-                    new Setter(ScrollViewer.BorderThicknessProperty, new Thickness(5, 0, 0, 0)),
-                }
-            }
+                .Add(ScrollViewer.BorderBrushProperty,
+                     new SolidColorBrush(Color.FromArgb(36, 255, 255, 255)))
+                .Add(ScrollViewer.BorderThicknessProperty, new Thickness(5, 0, 0, 0))
+                .Add(ScrollViewer.PaddingProperty, new Thickness(25, 40))
+        );
+
+        Styles.Add(
+            new Style(x => x.Class("SidePanel__ScrollViewer__Inner"))
+                .Add(StackPanel.SpacingProperty, 8.0)
+                .Add(StackPanel.OrientationProperty, Orientation.Vertical)
         );
     }
 
@@ -73,16 +77,21 @@ public class DashboardView : Page
                                 .Opacity(0.4)
                         ),
 
-                    new ScrollViewer().Content(
-                        new StackPanel()
-                            .Spacing(8)
-                            .Orientation(Orientation.Vertical)
-                            .Children(
-                                new TextBlock()
-                                    .Text(new Binding("Greet")),
-                                new TextBlock()
-                                    .Text("2232")
-                            ))
+                    new ScrollViewer()
+                        .Classes("SidePanel__ScrollViewer")
+
+                        .Content(
+                            new StackPanel()
+                                .Classes("SidePanel__ScrollViewer__Inner")
+                            
+                                .Children(
+                                    new Border().Classes("Line"),
+                                    new TextBlock()
+                                        .Text("Weather Details..."),
+                                    new TextBlock()
+                                        .Text("Today’s Weather Forecast...")
+                                )
+                            )
                 )
         );
     }
