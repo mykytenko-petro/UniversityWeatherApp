@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Platform;
 using UniversityWeatherApp.Config;
-using UniversityWeatherApp.Views.ApplicationStyles;
+using UniversityWeatherApp.Views.Styles;
 using UniversityWeatherApp.Views.Pages;
 
 namespace UniversityWeatherApp.Views;
@@ -23,6 +23,7 @@ public partial class MainWindow : Window
         Styles.Add(new AppStyles());
 
         // views
+        // TODO: make navigation
         Content = new DashboardView();
     }
 }
