@@ -17,4 +17,18 @@ public static partial class UIExtensions
 
         return control;
     }
+
+    public static Panel SetGridRowSpan(this Panel control, int value)
+    {
+        Grid.SetRowSpan(control, value);
+
+        return control;
+    }
+
+    public static Panel SetGridColumnSpan(this Panel control, int value)
+    {
+        Grid.SetColumnSpan(control, value);
+
+        return control;
+    }
 }

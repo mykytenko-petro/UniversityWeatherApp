@@ -5,7 +5,6 @@ using UniversityWeatherApp.ViewModels.Pages;
 using Avalonia.Layout;
 using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
-using Avalonia.Data;
 using Avalonia.Styling;
 using Avalonia;
 using UniversityWeatherApp.Framework.UI.Extensions;
@@ -21,8 +20,15 @@ public class DashboardView : Page
 
     protected override void Setup()
     {
+        RowDefinitions = [
+            new RowDefinition(new GridLength(5, GridUnitType.Star)),
+            new RowDefinition(new GridLength(80, GridUnitType.Star)),
+            new RowDefinition(new GridLength(15, GridUnitType.Star))
+        ];
+
         ColumnDefinitions = [
-            new ColumnDefinition(new GridLength(64, GridUnitType.Star)),
+            new ColumnDefinition(new GridLength(8, GridUnitType.Star)),
+            new ColumnDefinition(new GridLength(56, GridUnitType.Star)),
             new ColumnDefinition(new GridLength(36, GridUnitType.Star))
         ];
     }
@@ -36,15 +42,23 @@ public class DashboardView : Page
         };
         
         Styles.Add(
+            new Style(x => x.OfType<TextBlock>())
+                .Add(TextBlock.FontSizeProperty, 18)
+                .Add(TextBlock.FontWeightProperty, FontWeight.Regular)
+        );
+
+        Styles.Add(
             new Style(x => x.Class("Line"))
                 .Add(ScrollViewer.BorderBrushProperty, Brushes.White)
                 .Add(ScrollViewer.BorderThicknessProperty, new Thickness(0, 0, 0, 1))
         );
 
         Styles.Add(
-            new Style(x => x.OfType<TextBlock>())
-                .Add(TextBlock.FontSizeProperty, 18.0)
-                .Add(TextBlock.FontWeightProperty, FontWeight.Regular)
+            new Style(x => x.Class("Logo"))
+                .Add(Panel.WidthProperty, 80)
+                .Add(Panel.HeightProperty, 80)
+                .Add(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Left)
+                .Add(Panel.VerticalAlignmentProperty, VerticalAlignment.Top)
         );
 
         Styles.Add(
@@ -64,10 +78,26 @@ public class DashboardView : Page
 
     protected override void Layout()
     {
+        // Logo
+        Add(
+            new Panel()
+                .Classes("Logo")
+                .SetGridRow(1)
+                .SetGridColumn(1)
+                
+                .Background(
+                    new ImageBrush(
+                        ResourceUtils.GetAssetBitmap("Icon/Logo.png"))
+                        .Stretch(Stretch.Fill)
+                    )
+        );
+
         // Side panel
         Add(
             new Grid()
-                .SetGridColumn(1)
+                .SetGridColumn(2)
+                .SetGridRowSpan(3)
+                
                 .Children(
                     new Border()
                         .Background(
@@ -86,8 +116,12 @@ public class DashboardView : Page
                             
                                 .Children(
                                     new Border().Classes("Line"),
+
                                     new TextBlock()
                                         .Text("Weather Details..."),
+                                    
+                                    new Border().Classes("Line"),
+
                                     new TextBlock()
                                         .Text("Today’s Weather Forecast...")
                                 )
