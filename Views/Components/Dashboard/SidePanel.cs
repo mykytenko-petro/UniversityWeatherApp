@@ -9,7 +9,7 @@ using UniversityWeatherApp.Framework.Utils;
 
 namespace UniversityWeatherApp.Views.Components.Dashboard;
 
-public class SidePanel : ViewBase
+public class SidePanelView : Framework.Mvvm.ViewBase<Grid>
 {
     protected override void LayoutStyles()
     {
@@ -36,35 +36,34 @@ public class SidePanel : ViewBase
 
     protected override void Layout()
     {
-        Content = new Grid()
-            .Children(
-                new Border()
-                    .Background(
-                        new ImageBrush(
-                            ResourceUtils.GetAssetBitmap("Texture/BlurredBackground.png"))
-                            .Stretch(Stretch.Fill)
-                            .Opacity(0.4)
-                    ),
+        Root.Children(
+        new Border()
+            .Background(
+                new ImageBrush(
+                    ResourceUtils.GetAssetBitmap("Texture/BlurredBackground.png"))
+                    .Stretch(Stretch.Fill)
+                    .Opacity(0.4)
+            ),
 
-                new ScrollViewer()
-                    .Classes("SidePanel__ScrollViewer")
+        new ScrollViewer()
+            .Classes("SidePanel__ScrollViewer")
 
-                    .Content(
-                        new StackPanel()
-                            .Classes("SidePanel__ScrollViewer__Inner")
+            .Content(
+                new StackPanel()
+                    .Classes("SidePanel__ScrollViewer__Inner")
+                
+                    .Children(
+                        new Border().Classes("Line"),
+
+                        new TextBlock()
+                            .Text("Weather Details..."),
                         
-                            .Children(
-                                new Border().Classes("Line"),
+                        new Border().Classes("Line"),
 
-                                new TextBlock()
-                                    .Text("Weather Details..."),
-                                
-                                new Border().Classes("Line"),
-
-                                new TextBlock()
-                                    .Text("Today’s Weather Forecast...")
-                            )
-                        )
-            );
+                        new TextBlock()
+                            .Text("Today’s Weather Forecast...")
+                    )
+                )
+        );
     }
 }

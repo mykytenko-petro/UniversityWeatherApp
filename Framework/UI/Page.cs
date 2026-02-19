@@ -1,30 +1,24 @@
 using Avalonia.Controls;
+using UniversityWeatherApp.Framework.Mvvm;
 
 namespace UniversityWeatherApp.Framework.UI;
 
-public abstract class Page : ViewBase
+public abstract class Page : ViewBase<Grid>
 {
-    private readonly Grid _grid = new();
-
     protected RowDefinitions RowDefinitions
     {
-        get => _grid.RowDefinitions;
-        set => _grid.RowDefinitions = value;
+        get => Root.RowDefinitions;
+        set => Root.RowDefinitions = value;
     }
 
     protected ColumnDefinitions ColumnDefinitions
     {
-        get => _grid.ColumnDefinitions;
-        set => _grid.ColumnDefinitions = value;
-    }
-
-    protected Page() : base()
-    {
-        Content = _grid;
+        get => Root.ColumnDefinitions;
+        set => Root.ColumnDefinitions = value;
     }
 
     protected void Add(Control item)
     {
-        _grid.Children.Add(item);
+        Root.Children.Add(item);
     }
 }

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -25,8 +24,6 @@ public class DashboardStyles : ViewStyles
             new Style(x => x.Class("Logo"))
                 .Add(Panel.WidthProperty, 80)
                 .Add(Panel.HeightProperty, 80)
-                .Add(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Left)
-                .Add(Panel.VerticalAlignmentProperty, VerticalAlignment.Top)
         );
     }
 }

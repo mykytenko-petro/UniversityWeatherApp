@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using UniversityWeatherApp.Framework.UI;
-using UniversityWeatherApp.ViewModels.Pages;
 using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
 using UniversityWeatherApp.Framework.UI.Extensions;
@@ -12,12 +11,7 @@ namespace UniversityWeatherApp.Views.Pages;
 
 public class DashboardView : Page
 {
-    public DashboardView() : base()
-    {
-        DataContext = new DashboardViewModel();
-    }
-
-    protected override void Setup()
+    protected override void LayoutStyles()
     {
         RowDefinitions = [
             new RowDefinition(new GridLength(2, GridUnitType.Star)),
@@ -30,10 +24,7 @@ public class DashboardView : Page
             new ColumnDefinition(new GridLength(56, GridUnitType.Star)),
             new ColumnDefinition(new GridLength(36, GridUnitType.Star))
         ];
-    }
 
-    protected override void LayoutStyles()
-    {
         Background = new ImageBrush
         {
             Source = ResourceUtils.GetAssetBitmap("Background/Snow.png"),
@@ -53,14 +44,23 @@ public class DashboardView : Page
                     ResourceUtils.GetAssetBitmap("Icon/Logo.png"))
                     .Stretch(Stretch.Fill)
             }
+                .Classes("TopLeft")
                 .Classes("Logo")
                 .SetGridRow(1)
                 .SetGridColumn(1)
         );
 
+        // current weather overview
+        Add(
+            new CurrentWeatherOverviewView()
+                .Classes("TopLeft")
+                .SetGridRow(2)
+                .SetGridColumn(1)
+        );
+
         // Side panel
         Add(
-            new SidePanel()
+            new SidePanelView()
                 .SetGridColumn(2)
                 .SetGridRowSpan(3)
         );
