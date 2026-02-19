@@ -20,7 +20,7 @@ public abstract class Page : ViewBase
 
     protected Page() : base()
     {
-        Children.Add(_grid);
+        Content = _grid;
     }
 
     protected void Add(Control item)

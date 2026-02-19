@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 namespace UniversityWeatherApp.Framework.UI;
 
-public abstract class ViewBase : Panel
+public abstract class ViewBase : UserControl
 {
     protected ViewBase() : base()
     {

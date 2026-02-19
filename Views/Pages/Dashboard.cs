@@ -6,6 +6,7 @@ using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
 using UniversityWeatherApp.Framework.UI.Extensions;
 using UniversityWeatherApp.Views.Styles.Pages;
+using UniversityWeatherApp.Views.Components.Dashboard;
 
 namespace UniversityWeatherApp.Views.Pages;
 
@@ -47,52 +48,21 @@ public class DashboardView : Page
         // Logo
         Add(
             new Panel()
+            {
+                Background = new ImageBrush(
+                    ResourceUtils.GetAssetBitmap("Icon/Logo.png"))
+                    .Stretch(Stretch.Fill)
+            }
                 .Classes("Logo")
                 .SetGridRow(1)
                 .SetGridColumn(1)
-                
-                .Background(
-                    new ImageBrush(
-                        ResourceUtils.GetAssetBitmap("Icon/Logo.png"))
-                        .Stretch(Stretch.Fill)
-                    )
         );
 
         // Side panel
         Add(
-            new Grid()
+            new SidePanel()
                 .SetGridColumn(2)
                 .SetGridRowSpan(3)
-                
-                .Children(
-                    new Border()
-                        .Background(
-                            new ImageBrush(
-                                ResourceUtils.GetAssetBitmap("Texture/BlurredBackground.png"))
-                                .Stretch(Stretch.Fill)
-                                .Opacity(0.4)
-                        ),
-
-                    new ScrollViewer()
-                        .Classes("SidePanel__ScrollViewer")
-
-                        .Content(
-                            new StackPanel()
-                                .Classes("SidePanel__ScrollViewer__Inner")
-                            
-                                .Children(
-                                    new Border().Classes("Line"),
-
-                                    new TextBlock()
-                                        .Text("Weather Details..."),
-                                    
-                                    new Border().Classes("Line"),
-
-                                    new TextBlock()
-                                        .Text("Today’s Weather Forecast...")
-                                )
-                            )
-                )
         );
     }
 }

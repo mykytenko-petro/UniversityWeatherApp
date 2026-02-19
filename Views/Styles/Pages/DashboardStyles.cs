@@ -19,15 +19,6 @@ public class DashboardStyles : ViewStyles
         );
     }
 
-    protected override void Commons()
-    {
-        Add(
-            new Style(x => x.Class("Line"))
-                .Add(ScrollViewer.BorderBrushProperty, Brushes.White)
-                .Add(ScrollViewer.BorderThicknessProperty, new Thickness(0, 0, 0, 1))
-        );
-    }
-
     protected override void Widgets()
     {
         Add(
@@ -36,20 +27,6 @@ public class DashboardStyles : ViewStyles
                 .Add(Panel.HeightProperty, 80)
                 .Add(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Left)
                 .Add(Panel.VerticalAlignmentProperty, VerticalAlignment.Top)
-        );
-
-        Add(
-            new Style(x => x.Class("SidePanel__ScrollViewer"))
-                .Add(ScrollViewer.BorderBrushProperty,
-                     new SolidColorBrush(Color.FromArgb(36, 255, 255, 255)))
-                .Add(ScrollViewer.BorderThicknessProperty, new Thickness(5, 0, 0, 0))
-                .Add(ScrollViewer.PaddingProperty, new Thickness(25, 40))
-        );
-
-        Add(
-            new Style(x => x.Class("SidePanel__ScrollViewer__Inner"))
-                .Add(StackPanel.SpacingProperty, 8.0)
-                .Add(StackPanel.OrientationProperty, Orientation.Vertical)
         );
     }
 }
