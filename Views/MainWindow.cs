@@ -8,7 +8,7 @@ namespace UniversityWeatherApp.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(IServiceProvider serviceProvider)
     {
         // window settings
         Width = WindowSettings.Width;
@@ -24,6 +24,6 @@ public partial class MainWindow : Window
 
         // views
         // TODO: make navigation
-        Content = new DashboardView();
+        Content = new DashboardView(serviceProvider);
     }
 }

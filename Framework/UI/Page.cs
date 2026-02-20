@@ -5,6 +5,8 @@ namespace UniversityWeatherApp.Framework.UI;
 
 public abstract class Page : ViewBase<Grid>
 {
+    protected Page(IServiceProvider serviceProvider) : base(serviceProvider) { }
+
     protected RowDefinitions RowDefinitions
     {
         get => Root.RowDefinitions;

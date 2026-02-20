@@ -8,10 +8,14 @@ namespace UniversityWeatherApp.Framework.Mvvm;
 /// <typeparam name="T"></typeparam>
 public abstract class ViewBase<T> : UserControl where T : Panel, new()
 {
-    protected T Root;
+    protected IServiceProvider? _serviceProvider;
 
-    protected ViewBase() : base()
+    protected T Root;
+    
+    protected ViewBase(IServiceProvider? serviceProvider = null) : base()
     {
+        _serviceProvider = serviceProvider;
+
         Root = new T();
 
         LayoutStyles();

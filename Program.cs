@@ -1,18 +1,30 @@
 ﻿using Avalonia;
-using System;
+using Microsoft.Extensions.DependencyInjection;
+using UniversityWeatherApp.Framework.Debug;
 
 namespace UniversityWeatherApp;
 
 sealed class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
-    [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
+#pragma warning disable CS8618
+    public static IServiceProvider ServiceProvider { get; private set; }
+#pragma warning restore CS8618
 
-    // Avalonia configuration, don't remove; also used by visual designer.
+    [STAThread]
+    public static void Main(string[] args)
+    {
+        // dependency injection setup
+        var services = new ServiceCollection();
+
+        services.AddSingleton<IDebugService, DebugService>();
+
+        ServiceProvider = services.BuildServiceProvider();
+
+        // avalonia app setup
+        BuildAvaloniaApp()
+            .StartWithClassicDesktopLifetime(args);
+    }
+
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()

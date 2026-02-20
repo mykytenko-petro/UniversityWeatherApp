@@ -9,7 +9,7 @@ using UniversityWeatherApp.Views.Components.Dashboard;
 
 namespace UniversityWeatherApp.Views.Pages;
 
-public class DashboardView : Page
+public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvider)
 {
     protected override void LayoutStyles()
     {
