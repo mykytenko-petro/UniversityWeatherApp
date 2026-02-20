@@ -38,12 +38,8 @@ public class DashboardView : Page
     {
         // Logo
         Add(
-            new Panel()
-            {
-                Background = new ImageBrush(
-                    ResourceUtils.GetAssetBitmap("Icon/Logo.png"))
-                    .Stretch(Stretch.Fill)
-            }
+            new Image()
+                .SvgSource("Icon/Logo.svg")
                 .Classes("TopLeft")
                 .Classes("Logo")
                 .SetGridRow(1)
