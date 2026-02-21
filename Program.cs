@@ -16,7 +16,7 @@ sealed class Program
         // dependency injection setup
         var services = new ServiceCollection();
 
-        services.AddSingleton<IDebugService, DebugService>();
+        services.AddSingleton<DebugService>();
 
         ServiceProvider = services.BuildServiceProvider();
 
