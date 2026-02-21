@@ -18,4 +18,6 @@ public partial class CurrentWeatherOverviewViewModel : ViewModelBase
 
     [ObservableProperty]
     private SvgImage _weatherIcon = ResourceUtils.GetSvgImage("WeatherIcon/11d.svg");
+
+    
 }

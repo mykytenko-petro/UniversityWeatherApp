@@ -19,6 +19,14 @@ public partial class App : Application
 
         // debug
         DebugLogic();
+
+        // weather api call
+        var weatherService = Program.ServiceProvider.GetRequiredService<WeatherService>();
+
+        var result = Task.Run(
+            async () => await weatherService.GetTodaysWeather("Dnipro")).Result;
+
+        // Console.WriteLine(result);
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -56,7 +64,6 @@ public partial class App : Application
 
         // weather service
         var weatherService = Program.ServiceProvider.GetRequiredService<WeatherService>();
-
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         var result = Task.Run(
