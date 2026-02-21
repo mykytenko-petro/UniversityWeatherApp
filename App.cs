@@ -1,8 +1,12 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
+using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.Threading.Tasks;
+using UniversityWeatherApp.Framework.Debug;
 using UniversityWeatherApp.Framework.Mvvm;
+using UniversityWeatherApp.Services;
 using UniversityWeatherApp.Views;
 
 namespace UniversityWeatherApp;
@@ -12,6 +16,9 @@ public partial class App : Application
     public override void Initialize()
     {
         DataTemplates.Add(new ViewLocator());
+
+        // debug
+        DebugLogic();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -39,5 +46,23 @@ public partial class App : Application
         {
             BindingPlugins.DataValidators.Remove(plugin);
         }
+    }
+
+    private void DebugLogic()
+    {
+        var debugService = Program.ServiceProvider.GetRequiredService<DebugService>();
+        if (!debugService.Debug)
+            return;
+
+        // weather service
+        var weatherService = Program.ServiceProvider.GetRequiredService<WeatherService>();
+
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var result = Task.Run(
+            async () => await weatherService.Connect(debugService.EvnVariables["OPEN_WEATER_MAP_API_KEY"])).Result;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+        Console.WriteLine(result);
     }
 }

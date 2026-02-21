@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using UniversityWeatherApp.Framework.Debug;
+using UniversityWeatherApp.Services;
 
 namespace UniversityWeatherApp;
 
@@ -17,6 +18,7 @@ sealed class Program
         var services = new ServiceCollection();
 
         services.AddSingleton<DebugService>();
+        services.AddSingleton<WeatherService>();
 
         ServiceProvider = services.BuildServiceProvider();
 
