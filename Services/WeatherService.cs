@@ -20,6 +20,8 @@ public sealed class WeatherService
     private readonly string ApiUriRoot = "https://api.openweathermap.org/data/2.5";
     private string? ApiKey;
 
+    public event Action<TodaysWeatherModel>? OnDataUpdate;
+
     public async Task<ApiStatus> Connect(string apiKey)
     {
         HttpResponseMessage response = await client.GetAsync(
@@ -45,7 +47,7 @@ public sealed class WeatherService
         }
     }
 
-    public async Task<TodaysWeatherModel> GetTodaysWeather(string city)
+    public async Task GetTodaysWeather(string city)
     {
         using HttpClient client = new();
 
@@ -58,10 +60,8 @@ public sealed class WeatherService
         );
 
         var jsonText = await response.Content.ReadAsStringAsync();
-        Console.WriteLine(jsonText);
-
         var result = JsonSerializer.Deserialize<TodaysWeatherModel>(jsonText);
 
-        return result;
+        OnDataUpdate?.Invoke(result!);
     }
 }

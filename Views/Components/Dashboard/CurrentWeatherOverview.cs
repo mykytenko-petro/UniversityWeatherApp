@@ -9,9 +9,9 @@ namespace UniversityWeatherApp.Views.Components.Dashboard;
 
 public class CurrentWeatherOverviewView : Framework.Mvvm.ViewBase<StackPanel>
 {
-    public CurrentWeatherOverviewView()
+    public CurrentWeatherOverviewView(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        DataContext = new CurrentWeatherOverviewViewModel();
+        DataContext = new CurrentWeatherOverviewViewModel(_serviceProvider!);
     }
 
     protected override void LayoutStyles()

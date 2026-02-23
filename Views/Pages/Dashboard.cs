@@ -48,7 +48,7 @@ public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvi
 
         // current weather overview
         Add(
-            new CurrentWeatherOverviewView()
+            new CurrentWeatherOverviewView(_serviceProvider!)
                 .Classes("TopLeft")
                 .SetGridRow(2)
                 .SetGridColumn(1)
