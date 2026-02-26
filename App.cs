@@ -26,7 +26,7 @@ public partial class App : Application
 
         Dispatcher.UIThread.Post(async () =>
         {
-            await weatherService.GetTodaysWeather("Dnipro");
+            await weatherService.GetWeather("Dnipro");
         });
     }
 

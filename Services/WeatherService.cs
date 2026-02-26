@@ -6,13 +6,6 @@ using UniversityWeatherApp.Models.WeatherService;
 
 namespace UniversityWeatherApp.Services;
 
-public enum ApiStatus
-{
-    Connected,
-    InvalidKey,
-    UnknownError
-}
-
 public sealed class WeatherService
 {
     private readonly HttpClient client= new();
@@ -20,9 +13,9 @@ public sealed class WeatherService
     private readonly string ApiUriRoot = "https://api.openweathermap.org/data/2.5";
     private string? ApiKey;
 
-    public event Action<TodaysWeatherModel>? OnDataUpdate;
+    public event Action<WeatherResponse>? OnDataUpdate;
 
-    public async Task<ApiStatus> Connect(string apiKey)
+    public async Task<HttpStatusCode> Connect(string apiKey)
     {
         HttpResponseMessage response = await client.GetAsync(
             ApiUriRoot
@@ -34,23 +27,47 @@ public sealed class WeatherService
         if (response.StatusCode == HttpStatusCode.OK)
         {    
             ApiKey = apiKey;
-
-            return ApiStatus.Connected;
         }
-        else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            return ApiStatus.InvalidKey;
         else
         {
             Console.WriteLine(response.StatusCode);
-
-            return ApiStatus.UnknownError;
         }
+
+        return response.StatusCode;
     }
 
-    public async Task GetTodaysWeather(string city)
+    public async Task GetWeather(string city)
     {
-        using HttpClient client = new();
+        CurrentWeatherModel currentWeather = await GetCurrentWeather(city);
+        TodaysWeatherModel todaysWeather = await GetTodaysWeather(city);
 
+        OnDataUpdate?.Invoke(
+            new WeatherResponse
+            {
+                CurrentWeather = currentWeather,
+                TodaysWeather = todaysWeather
+            }
+        );
+    }
+
+    private async Task<CurrentWeatherModel> GetCurrentWeather(string city)
+    {
+        HttpResponseMessage response = await client.GetAsync(
+            ApiUriRoot
+            + "/weather"
+            + $"?q={city}"
+            + $"&appid={ApiKey}"
+            + "&units=metric"
+        );
+
+        var jsonText = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<CurrentWeatherModel>(jsonText);
+
+        return result!;
+    }
+
+    private async Task<TodaysWeatherModel> GetTodaysWeather(string city)
+    {
         HttpResponseMessage response = await client.GetAsync(
             ApiUriRoot
             + "/forecast"
@@ -62,6 +79,6 @@ public sealed class WeatherService
         var jsonText = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<TodaysWeatherModel>(jsonText);
 
-        OnDataUpdate?.Invoke(result!);
+        return result!;
     }
 }

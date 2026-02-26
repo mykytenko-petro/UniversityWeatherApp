@@ -98,34 +98,10 @@ public class WeatherDescription
     public required string Icon { get; set; }
 }
 
-public class Clouds
-{
-    [JsonPropertyName("all")]
-    public int All { get; set; }
-}
-
-public class Wind
-{
-    [JsonPropertyName("speed")]
-    public double Speed { get; set; }
-
-    [JsonPropertyName("deg")]
-    public int Deg { get; set; }
-
-    [JsonPropertyName("gust")]
-    public double Gust { get; set; }
-}
-
 public class Snow
 {
     [JsonPropertyName("3h")]
     public double? ThreeHours { get; set; }
-}
-
-public class Sys
-{
-    [JsonPropertyName("pod")]
-    public required string Pod { get; set; }
 }
 
 public class City
@@ -155,11 +131,3 @@ public class City
     public long Sunset { get; set; }
 }
 
-public class Coord
-{
-    [JsonPropertyName("lat")]
-    public double Lat { get; set; }
-
-    [JsonPropertyName("lon")]
-    public double Lon { get; set; }
-}

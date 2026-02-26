@@ -29,12 +29,14 @@ public partial class CurrentWeatherOverviewViewModel : ViewModelBase
         weatherService.OnDataUpdate += UpdateData;
     }
 
-    private void UpdateData(TodaysWeatherModel data)
+    private void UpdateData(WeatherResponse response)
     {
-        Temperature = $"{data.List[0].Main.Temp}°";
-        City = data.City.Name;
-        Date = data.List[0].DtTxt;
+        CurrentWeatherModel data = response.CurrentWeather;
+
+        Temperature = $"{data.Main.Temp}°";
+        City = data.Name;
+        Date = $"{data.Dt}";
         WeatherIcon = ResourceUtils.GetSvgImage(
-            "WeatherIcon/" + data.List[0].Weather[0].Icon + ".svg");
+            "WeatherIcon/" + data.Weather[0].Icon + ".svg");
     }
 }

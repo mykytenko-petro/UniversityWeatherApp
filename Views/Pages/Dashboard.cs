@@ -15,8 +15,8 @@ public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvi
     {
         RowDefinitions = [
             new RowDefinition(new GridLength(2, GridUnitType.Star)),
-            new RowDefinition(new GridLength(80, GridUnitType.Star)),
-            new RowDefinition(new GridLength(18, GridUnitType.Star))
+            new RowDefinition(new GridLength(70, GridUnitType.Star)),
+            new RowDefinition(new GridLength(28, GridUnitType.Star))
         ];
 
         ColumnDefinitions = [
