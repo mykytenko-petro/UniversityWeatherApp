@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using UniversityWeatherApp.Models.WeatherService;
 
 namespace UniversityWeatherApp.Services;
@@ -34,6 +35,14 @@ public sealed class WeatherService
         }
 
         return response.StatusCode;
+    }
+
+    public void GetWeatherSync(string city)
+    {
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await GetWeather(city);
+        });
     }
 
     public async Task GetWeather(string city)

@@ -1,3 +1,4 @@
+using System.Globalization;
 using Avalonia.Svg;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,10 +34,21 @@ public partial class CurrentWeatherOverviewViewModel : ViewModelBase
     {
         CurrentWeatherModel data = response.CurrentWeather;
 
-        Temperature = $"{data.Main.Temp}°";
+        Temperature = FormatTemperature(data.Main.Temp);
         City = data.Name;
-        Date = $"{data.Dt}";
+        Date = FormatTime(data.Dt, data.Timezone);
         WeatherIcon = ResourceUtils.GetSvgImage(
             "WeatherIcon/" + data.Weather[0].Icon + ".svg");
+    }
+
+    private string FormatTemperature(double temp)
+    {
+        return Math.Round(temp, MidpointRounding.AwayFromZero).ToString() + "°";
+    }
+
+    private string FormatTime(long time, int timezone)
+    {
+        return DateTimeOffset.FromUnixTimeSeconds(time + timezone)
+            .ToString("HH:mm - dddd, d MMM ‘yy", CultureInfo.InvariantCulture);
     }
 }

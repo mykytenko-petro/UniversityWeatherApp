@@ -26,11 +26,6 @@ public class CurrentWeatherOverviewView : Framework.Mvvm.ViewBase<StackPanel>
         );
 
         Styles.Add(
-            new Style(x => x.Class("Container"))
-                .Add(StackPanel.VerticalAlignmentProperty, VerticalAlignment.Center)
-        );
-
-        Styles.Add(
             new Style(x => x.Class("City"))
                 .Add(TextBlock.FontSizeProperty, 40)
         );
@@ -41,10 +36,13 @@ public class CurrentWeatherOverviewView : Framework.Mvvm.ViewBase<StackPanel>
         Root.Children(
             new TextBlock()
                 .Classes("Temperature")
+
                 .Text(new Binding("Temperature")),
 
             new StackPanel()
                 .Classes("Container")
+                .VerticalAlignment(VerticalAlignment.Center)
+
                 .Children(
                     new TextBlock()
                         .Classes("City")
@@ -56,9 +54,11 @@ public class CurrentWeatherOverviewView : Framework.Mvvm.ViewBase<StackPanel>
                 ),
 
             new Image()
-                .SvgSource(new Binding("WeatherIcon"))
+                .VerticalAlignment(VerticalAlignment.Center)
                 .Width(67)
                 .Height(67)
+
+                .SvgSource(new Binding("WeatherIcon"))
         );
     }
 }
