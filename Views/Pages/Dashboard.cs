@@ -56,7 +56,7 @@ public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvi
 
         // Side panel
         Add(
-            new SidePanelView()
+            new SidePanelView(_serviceProvider!)
                 .SetGridColumn(2)
                 .SetGridRowSpan(3)
         );

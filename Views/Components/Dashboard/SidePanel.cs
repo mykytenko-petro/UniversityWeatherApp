@@ -9,7 +9,8 @@ using UniversityWeatherApp.Framework.Utils;
 
 namespace UniversityWeatherApp.Views.Components.Dashboard;
 
-public class SidePanelView : Framework.Mvvm.ViewBase<Grid>
+public class SidePanelView(IServiceProvider serviceProvider)
+    : Framework.Mvvm.ViewBase<Grid>(serviceProvider)
 {
     protected override void LayoutStyles()
     {
@@ -20,7 +21,7 @@ public class SidePanelView : Framework.Mvvm.ViewBase<Grid>
         );
 
         Styles.Add(
-            new Style(x => x.Class("SidePanel__ScrollViewer"))
+            new Style(x => x.Class("ScrollViewer"))
                 .Add(ScrollViewer.BorderBrushProperty,
                      new SolidColorBrush(Color.FromArgb(36, 255, 255, 255)))
                 .Add(ScrollViewer.BorderThicknessProperty, new Thickness(5, 0, 0, 0))
@@ -28,7 +29,7 @@ public class SidePanelView : Framework.Mvvm.ViewBase<Grid>
         );
         
         Styles.Add(
-            new Style(x => x.Class("SidePanel__ScrollViewer__Inner"))
+            new Style(x => x.Class("ScrollViewerInner"))
                 .Add(StackPanel.SpacingProperty, 8.0)
                 .Add(StackPanel.OrientationProperty, Orientation.Vertical)
         );
@@ -37,32 +38,36 @@ public class SidePanelView : Framework.Mvvm.ViewBase<Grid>
     protected override void Layout()
     {
         Root.Children(
-        new Border()
-            .Background(
-                new ImageBrush(
-                    ResourceUtils.GetAssetBitmap("Texture/BlurredBackground.png"))
-                    .Stretch(Stretch.Fill)
-                    .Opacity(0.4)
-            ),
+            new Border()
+                .Background(
+                    new ImageBrush(
+                        ResourceUtils.GetAssetBitmap("Texture/BlurredBackground.png"))
+                        .Stretch(Stretch.Fill)
+                        .Opacity(0.4)
+                ),
 
-        new ScrollViewer()
-            .Classes("SidePanel__ScrollViewer")
+            new ScrollViewer()
+                .Classes("ScrollViewer")
 
-            .Content(
-                new StackPanel()
-                    .Classes("SidePanel__ScrollViewer__Inner")
-                
-                    .Children(
-                        new Border().Classes("Line"),
+                .Content(
+                    new StackPanel()
+                        .Classes("ScrollViewerInner")
+                    
+                        .Children(
+                            new CityNameEntryView(_serviceProvider!),
 
-                        new TextBlock()
-                            .Text("Weather Details..."),
-                        
-                        new Border().Classes("Line"),
+                            new Border().Classes("Line"),
 
-                        new TextBlock()
-                            .Text("Today’s Weather Forecast...")
-                    )
+                            new TextBlock()
+                                .Text("Weather Details..."),
+
+                            new TodaysWeatherPropertiesView(_serviceProvider!),
+                            
+                            new Border().Classes("Line"),
+
+                            new TextBlock()
+                                .Text("Today’s Weather Forecast...")
+                        )
                 )
         );
     }

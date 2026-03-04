@@ -9,7 +9,7 @@ namespace UniversityWeatherApp.Services;
 
 public sealed class WeatherService
 {
-    private readonly HttpClient client= new();
+    private readonly HttpClient client = new();
 
     private readonly string ApiUriRoot = "https://api.openweathermap.org/data/2.5";
     private string? ApiKey;

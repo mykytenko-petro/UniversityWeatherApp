@@ -8,7 +8,8 @@ using UniversityWeatherApp.ViewModels.Components.Dashboard;
 
 namespace UniversityWeatherApp.Views.Components.Dashboard;
 
-public class CurrentWeatherOverviewView : Framework.Mvvm.ViewBase<StackPanel>
+public class CurrentWeatherOverviewView
+    : Framework.Mvvm.ViewBase<StackPanel>
 {
     public CurrentWeatherOverviewView(IServiceProvider serviceProvider) : base(serviceProvider)
     {
