@@ -4,31 +4,31 @@ namespace UniversityWeatherApp.Framework.UI.Extensions;
 
 public static partial class UIExtensions
 {
-    public static Control SetGridRow(this Control control, int value)
+    public static T SetGridRow<T>(this T control, int value)
+        where T : Control
     {
         Grid.SetRow(control, value);
-
         return control;
     }
 
-    public static Control SetGridColumn(this Control control, int value)
+    public static T SetGridColumn<T>(this T control, int value)
+        where T : Control
     {
         Grid.SetColumn(control, value);
-
         return control;
     }
 
-    public static Control SetGridRowSpan(this Control control, int value)
+    public static T SetGridRowSpan<T>(this T control, int value)
+        where T : Control
     {
         Grid.SetRowSpan(control, value);
-
         return control;
     }
 
-    public static Control SetGridColumnSpan(this Control control, int value)
+    public static T SetGridColumnSpan<T>(this T control, int value)
+        where T : Control
     {
         Grid.SetColumnSpan(control, value);
-
         return control;
     }
 }

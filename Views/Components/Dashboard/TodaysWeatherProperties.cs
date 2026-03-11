@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Data;
-using Avalonia.Layout;
 using Avalonia.Markup.Declarative;
+using Avalonia.Media;
 using Avalonia.Styling;
 using UniversityWeatherApp.Framework.UI.Extensions;
 using UniversityWeatherApp.ViewModels.Components.Dashboard;
@@ -18,8 +18,8 @@ public class TodaysWeatherPropertiesView
 
     protected override void LayoutStyles()
     {
-        Width = 350;
-        Height = 300;
+        Root.Spacing(10);
+        Root.Margin(0, 20);
 
         Styles.Add(
             new Style(x => x.Class("Description"))
@@ -28,14 +28,9 @@ public class TodaysWeatherPropertiesView
         );
 
         Styles.Add(
-            new Style(x => x.Class("DescriptionCard"))
-                .Add(StackPanel.OrientationProperty, Orientation.Horizontal)
-                .Add(StackPanel.WidthProperty, 350)
-        );
-
-        Styles.Add(
             new Style(x => x.Class("DescriptionCard").OfType<TextBlock>())
                 .Add(TextBlock.OpacityProperty, 0.7)
+
         );
 
         Styles.Add(
@@ -53,75 +48,69 @@ public class TodaysWeatherPropertiesView
 
                 .Text(new Binding("Description")),
 
-            new StackPanel()
-                .Classes("DescriptionCard")
+            GetDescriptionCard(
+                "Temp max",
+                "TempMax",
+                "ForecastIcon/MaxTemp.svg"
+            ),
 
-                .Children(
-                    new TextBlock()
-                        .Text("Temp max"),
+            GetDescriptionCard(
+                "Temp min",
+                "TempMin",
+                "ForecastIcon/MinTemp.svg"
+            ),
 
-                    new TextBlock()
-                        .Text(new Binding("TempMax")),
+            GetDescriptionCard(
+                "Humidity",
+                "Humidity",
+                "ForecastIcon/Humadity.svg"
+            ),
 
-                    new Image()
-                        .SvgSource("ForecastIcon/MaxTemp.svg")
-                ),
+            GetDescriptionCard(
+                "Cloudy",
+                "Cloudy",
+                "ForecastIcon/Cloudy.svg"
+            ),
 
-            new StackPanel()
-                .Classes("DescriptionCard")
+            GetDescriptionCard(
+                "Wind",
+                "Wind",
+                "ForecastIcon/Wind.svg"
+            )
+        );
+    }
 
-                .Children(
-                    new TextBlock()
-                        .Text("Temp min"),
+    private Grid GetDescriptionCard(
+        string name,
+        string bindingName,
+        string svgSource
+    )
+    {
+        return new Grid()
+        {
+            ColumnDefinitions =
+            {
+                new ColumnDefinition(new GridLength(5, GridUnitType.Star)),
+                new ColumnDefinition(new GridLength(2, GridUnitType.Star)),
+                new ColumnDefinition(new GridLength(1, GridUnitType.Star))
+            }
+        }        
+        .Children(
+            new TextBlock()
+                .SetGridColumn(0)
 
-                    new TextBlock()
-                        .Text(new Binding("TempMin")),
+                .Text(name),
 
-                    new Image()
-                        .SvgSource("ForecastIcon/MinTemp.svg")
-                ),
+            new TextBlock()
+                .TextAlignment(TextAlignment.End)
+                .SetGridColumn(1)
 
-            new StackPanel()
-                .Classes("DescriptionCard")
+                .Text(new Binding(bindingName)),
 
-                .Children(
-                    new TextBlock()
-                        .Text("Humidity"),
+            new Image()
+                .SetGridColumn(2)
 
-                    new TextBlock()
-                        .Text(new Binding("Humidity")),
-
-                    new Image()
-                        .SvgSource("ForecastIcon/Humadity.svg")
-                ),
-
-            new StackPanel()
-                .Classes("DescriptionCard")
-
-                .Children(
-                    new TextBlock()
-                        .Text("Cloudy"),
-
-                    new TextBlock()
-                        .Text(new Binding("Cloudy")),
-
-                    new Image()
-                        .SvgSource("ForecastIcon/Cloudy.svg")
-                ),
-            
-            new StackPanel()
-                .Classes("DescriptionCard")
-
-                .Children(
-                    new TextBlock()
-                        .Text("Wind"),
-
-                    new TextBlock()
-                        .Text(new Binding("Wind")),
-
-                    new Image()
-                        .SvgSource("ForecastIcon/Wind.svg")
-                )
+                .SvgSource(svgSource)
         );
     }
 }
