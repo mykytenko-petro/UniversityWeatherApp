@@ -39,11 +39,16 @@ public partial class TodaysWeatherPropertiesViewModel
 
         Description = currentWeatherModel.Weather[0].Description.ToUpper();
         
-        TempMax = currentWeatherModel.Main.TempMax.ToString() + "°";
-        TempMin = currentWeatherModel.Main.TempMin.ToString() + "°";
+        TempMax = FormatTemperature(currentWeatherModel.Main.TempMax);
+        TempMin = FormatTemperature(currentWeatherModel.Main.TempMin);
 
         Humidity = currentWeatherModel.Main.Humidity.ToString() + "%";
         Cloudy = currentWeatherModel.Clouds.All.ToString() + "%";
         Wind = currentWeatherModel.Wind.Speed.ToString() + "km/h";
+    }
+
+    private string FormatTemperature(double temp)
+    {
+        return Math.Round(temp, MidpointRounding.AwayFromZero).ToString() + "°";
     }
 }
