@@ -5,9 +5,9 @@ namespace UniversityWeatherApp.Framework.UI.Extensions;
 
 public static partial class UIExtensions
 {
-    public static Style Add(this Style style, AvaloniaProperty property, object value)
+    public static Style Add(this Style style, AvaloniaProperty property, object? value)
     {
-        if (value.GetType() == typeof(int))
+        if (value?.GetType() == typeof(int))
             value = Convert.ToDouble(value);
 
         style.Setters.Add(new Setter(property, value));

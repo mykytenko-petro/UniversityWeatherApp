@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Avalonia.Themes.Fluent;
 using UniversityWeatherApp.Framework.UI;
 using UniversityWeatherApp.Framework.UI.Extensions;
 
@@ -19,6 +20,8 @@ public class AppStyles : ViewStyles
 
     protected override void Commons()
     {
+        Add(new FluentTheme());
+
         Add(
             new Style(x => x.Class("TopLeft"))
                 .Add(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Left)

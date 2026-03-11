@@ -7,17 +7,21 @@ using UniversityWeatherApp.Services;
 
 namespace UniversityWeatherApp.ViewModels.Components.Dashboard;
 
-public partial class CityNameEntryViewModel(IServiceProvider serviceProvider) : ViewModelBase
+public partial class CityNameInputViewModel(IServiceProvider serviceProvider) : ViewModelBase
 {
     private readonly WeatherService _weatherService =
         serviceProvider.GetRequiredService<WeatherService>();
 
     [ObservableProperty]
-    private string _city = "2232";
+    private string _city = "";
 
-    [RelayCommand]
-    private async Task RequestWeather()
+    public async Task RequestWeather()
     {
+        if (City == "")
+            return;
+            
         await _weatherService.GetWeather(City);
+
+        City = "";
     }
 }
