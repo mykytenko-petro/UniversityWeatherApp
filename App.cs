@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
+using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,10 @@ public partial class App : Application
         // weather api call
         var weatherService = Program.ServiceProvider.GetRequiredService<WeatherService>();
 
-        weatherService.GetWeatherSync("Dnipro");
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await weatherService.GetWeather("Dnipro");
+        });
     }
 
     public override void OnFrameworkInitializationCompleted()

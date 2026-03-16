@@ -1,15 +1,15 @@
 using System.Net;
-using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Avalonia.Threading;
+using UniversityWeatherApp.Framework.Core;
 using UniversityWeatherApp.Models.WeatherService;
 
 namespace UniversityWeatherApp.Services;
 
-public sealed class WeatherService
+public sealed class WeatherService(WindowPopupService windowPopupService)
 {
-    private readonly HttpClient client = new();
+    private readonly WindowPopupService _windowPopupService = windowPopupService;
+
+    private readonly RequestClient client = new();
 
     private readonly string ApiUriRoot = "https://api.openweathermap.org/data/2.5";
     private string? ApiKey;
@@ -18,50 +18,50 @@ public sealed class WeatherService
 
     public async Task<HttpStatusCode> Connect(string apiKey)
     {
-        HttpResponseMessage response = await client.GetAsync(
+        HttpStatusCode code = await client.CheckConnection(
             ApiUriRoot
             + "/weather"
             + "?lat=0&lon=0"
             + $"&appid={apiKey}"
         );
 
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (code == HttpStatusCode.OK)
         {    
             ApiKey = apiKey;
         }
         else
         {
-            Console.WriteLine(response.StatusCode);
+            Console.WriteLine(code);
         }
 
-        return response.StatusCode;
-    }
-
-    public void GetWeatherSync(string city)
-    {
-        Dispatcher.UIThread.Post(async () =>
-        {
-            await GetWeather(city);
-        });
+        return code;
     }
 
     public async Task GetWeather(string city)
     {
-        CurrentWeatherModel currentWeather = await GetCurrentWeather(city);
-        TodaysWeatherModel todaysWeather = await GetTodaysWeather(city);
+        try
+        {
+            CurrentWeatherModel currentWeather = await GetCurrentWeather(city);
+            TodaysWeatherModel todaysWeather = await GetTodaysWeather(city);
+        
+            OnDataUpdate!.Invoke(
+                new WeatherResponse
+                {
+                    CurrentWeather = currentWeather,
+                    TodaysWeather = todaysWeather
+                }
+            );
+        }
+        catch (HttpNotFoundException)
+        {
+            _windowPopupService.CreateErrorPopup("there's no such a city");
+        }
 
-        OnDataUpdate?.Invoke(
-            new WeatherResponse
-            {
-                CurrentWeather = currentWeather,
-                TodaysWeather = todaysWeather
-            }
-        );
     }
 
     private async Task<CurrentWeatherModel> GetCurrentWeather(string city)
     {
-        HttpResponseMessage response = await client.GetAsync(
+        CurrentWeatherModel result = await client.GetAsync<CurrentWeatherModel>(
             ApiUriRoot
             + "/weather"
             + $"?q={city}"
@@ -69,15 +69,12 @@ public sealed class WeatherService
             + "&units=metric"
         );
 
-        var jsonText = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<CurrentWeatherModel>(jsonText);
-
-        return result!;
+        return result;
     }
 
     private async Task<TodaysWeatherModel> GetTodaysWeather(string city)
     {
-        HttpResponseMessage response = await client.GetAsync(
+        TodaysWeatherModel result = await client.GetAsync<TodaysWeatherModel>(
             ApiUriRoot
             + "/forecast"
             + $"?q={city}"
@@ -85,9 +82,6 @@ public sealed class WeatherService
             + "&units=metric"
         );
 
-        var jsonText = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<TodaysWeatherModel>(jsonText);
-
-        return result!;
+        return result;
     }
 }

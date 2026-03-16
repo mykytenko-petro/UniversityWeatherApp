@@ -2,11 +2,8 @@ using Avalonia.Controls;
 
 namespace UniversityWeatherApp.Framework.Mvvm;
 
-/// <summary>
-/// 
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public abstract class ViewBase<T> : UserControl where T : Panel, new()
+public abstract class ViewBase<T> : UserControl
+    where T : Panel, new()
 {
     protected IServiceProvider? _serviceProvider;
 

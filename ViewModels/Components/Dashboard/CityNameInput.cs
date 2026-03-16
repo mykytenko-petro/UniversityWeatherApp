@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using UniversityWeatherApp.Framework.Mvvm;
 using UniversityWeatherApp.Services;

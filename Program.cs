@@ -18,7 +18,10 @@ sealed class Program
         var services = new ServiceCollection();
 
         services.AddSingleton<DebugService>();
-        services.AddSingleton<WeatherService>();
+        WindowPopupService windowPopupService = new();
+        services.AddSingleton(windowPopupService);
+
+        services.AddSingleton(new WeatherService(windowPopupService));
 
         ServiceProvider = services.BuildServiceProvider();
 
