@@ -34,16 +34,11 @@ public partial class CurrentWeatherOverviewViewModel : ViewModelBase
     {
         CurrentWeatherModel data = response.CurrentWeather;
 
-        Temperature = FormatTemperature(data.Main.Temp);
+        Temperature = FormatUtils.FormatTemperature(data.Main.Temp);
         City = data.Name;
         Date = FormatTime(data.Dt, data.Timezone);
         WeatherIcon = ResourceUtils.GetSvgImage(
             "WeatherIcon/" + data.Weather[0].Icon + ".svg");
-    }
-
-    private string FormatTemperature(double temp)
-    {
-        return Math.Round(temp, MidpointRounding.AwayFromZero).ToString() + "°";
     }
 
     private string FormatTime(long time, int timezone)

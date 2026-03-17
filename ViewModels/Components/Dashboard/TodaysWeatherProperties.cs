@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
+using UniversityWeatherApp.Framework.Utils;
 using UniversityWeatherApp.Models.WeatherService;
 using UniversityWeatherApp.Services;
 
@@ -39,16 +40,11 @@ public partial class TodaysWeatherPropertiesViewModel
 
         Description = currentWeatherModel.Weather[0].Description.ToUpper();
         
-        TempMax = FormatTemperature(currentWeatherModel.Main.TempMax);
-        TempMin = FormatTemperature(currentWeatherModel.Main.TempMin);
+        TempMax = FormatUtils.FormatTemperature(currentWeatherModel.Main.TempMax);
+        TempMin = FormatUtils.FormatTemperature(currentWeatherModel.Main.TempMin);
 
         Humidity = currentWeatherModel.Main.Humidity.ToString() + "%";
         Cloudy = currentWeatherModel.Clouds.All.ToString() + "%";
         Wind = currentWeatherModel.Wind.Speed.ToString() + "km/h";
-    }
-
-    private string FormatTemperature(double temp)
-    {
-        return Math.Round(temp, MidpointRounding.AwayFromZero).ToString() + "°";
     }
 }

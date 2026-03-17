@@ -71,7 +71,12 @@ public class SidePanelView(IServiceProvider serviceProvider)
                             new Border().Classes("Line"),
 
                             new TextBlock()
-                                .Text("Today’s Weather Forecast...")
+                                .Text("Today’s Weather Forecast..."),
+
+                            new WeatherForecastListView(_serviceProvider!),
+
+                            new Border().Classes("Line")
+                                .Height(120)
                         )
                 )
         );
