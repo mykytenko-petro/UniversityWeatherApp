@@ -1,8 +1,13 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
+using Avalonia.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.Threading.Tasks;
+using UniversityWeatherApp.Framework.Debug;
 using UniversityWeatherApp.Framework.Mvvm;
+using UniversityWeatherApp.Services;
 using UniversityWeatherApp.Views;
 
 namespace UniversityWeatherApp;
@@ -12,19 +17,28 @@ public partial class App : Application
     public override void Initialize()
     {
         DataTemplates.Add(new ViewLocator());
+
+        // debug
+        DebugLogic();
+
+        // weather api call
+        var weatherService = Program.ServiceProvider.GetRequiredService<WeatherService>();
+
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await weatherService.GetWeather("Dnipro");
+        });
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
-            desktop.MainWindow = new MainWindow
-            {
-                // DataContext = new MainWindowViewModel(),
-            };
+
+            desktop.MainWindow = new MainWindow(
+                Program.ServiceProvider
+            );
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -41,5 +55,20 @@ public partial class App : Application
         {
             BindingPlugins.DataValidators.Remove(plugin);
         }
+    }
+
+    private void DebugLogic()
+    {
+        var debugService = Program.ServiceProvider.GetRequiredService<DebugService>();
+        if (!debugService.Debug)
+            return;
+
+        // weather service
+        var weatherService = Program.ServiceProvider.GetRequiredService<WeatherService>();
+
+        var result = Task.Run(
+            async () => await weatherService.Connect(debugService.EvnVariables!["OPEN_WEATER_MAP_API_KEY"])).Result;
+
+        Console.WriteLine(result);
     }
 }

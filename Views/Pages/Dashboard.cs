@@ -1,59 +1,64 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using UniversityWeatherApp.Framework.UI;
-using UniversityWeatherApp.ViewModels.Pages;
-using Avalonia.Layout;
 using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
-using Avalonia.Data;
+using UniversityWeatherApp.Framework.UI.Extensions;
+using UniversityWeatherApp.Views.Styles.Pages;
+using UniversityWeatherApp.Views.Components.Dashboard;
 
 namespace UniversityWeatherApp.Views.Pages;
 
-public class DashboardView : Page
+public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvider)
 {
-    public DashboardView() : base()
+    protected override void LayoutStyles()
     {
-        DataContext = new DashboardViewModel();
-    }
+        RowDefinitions = [
+            new RowDefinition(new GridLength(2, GridUnitType.Star)),
+            new RowDefinition(new GridLength(70, GridUnitType.Star)),
+            new RowDefinition(new GridLength(28, GridUnitType.Star))
+        ];
 
-    protected override void Setup()
-    {
+        ColumnDefinitions = [
+            new ColumnDefinition(new GridLength(8, GridUnitType.Star)),
+            new ColumnDefinition(new GridLength(56, GridUnitType.Star)),
+            new ColumnDefinition(new GridLength(36, GridUnitType.Star))
+        ];
+
         Background = new ImageBrush
         {
             Source = ResourceUtils.GetAssetBitmap("Background/Snow.png"),
             Stretch = Stretch.UniformToFill
         };
+        
+        Styles.Add(new DashboardStyles());
     }
 
     protected override void Layout()
     {
+        // Logo
+        Add(
+            new Image()
+                .SvgSource("Icon/Logo.svg")
+                .Classes("TopLeft")
+                .Classes("Logo")
+                .SetGridRow(1)
+                .SetGridColumn(1)
+        );
+
+        // current weather overview
+        Add(
+            new CurrentWeatherOverviewView(_serviceProvider!)
+                .Classes("TopLeft")
+                .SetGridRow(2)
+                .SetGridColumn(1)
+        );
+
         // Side panel
-        Children.Add(
-            new Grid()
-                .Width(526)
-                .HorizontalAlignment(HorizontalAlignment.Right)
-                .VerticalAlignment(VerticalAlignment.Stretch)
-
-                .Children(
-                    new Border()
-                        .Background(
-                            new ImageBrush(
-                                ResourceUtils.GetAssetBitmap("Texture/BlurredBackground.png"))
-                                .Stretch(Stretch.Fill)
-                                .Opacity(0.4)
-                        ),
-
-                    new ScrollViewer().Content(
-                        new StackPanel()
-                            .Spacing(8)
-                            .Orientation(Orientation.Vertical)
-                            .Children(
-                                new TextBlock()
-                                    .Text(new Binding("Greet")),
-                                new TextBlock()
-                                    .Text("2232")
-                            ))
-                )
+        Add(
+            new SidePanelView(_serviceProvider!)
+                .SetGridColumn(2)
+                .SetGridRowSpan(3)
         );
     }
 }

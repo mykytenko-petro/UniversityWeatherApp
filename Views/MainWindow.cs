@@ -1,15 +1,16 @@
 using Avalonia.Controls;
 using Avalonia.Platform;
 using UniversityWeatherApp.Config;
+using UniversityWeatherApp.Views.Styles;
 using UniversityWeatherApp.Views.Pages;
 
 namespace UniversityWeatherApp.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(IServiceProvider serviceProvider)
     {
-        // Window settings
+        // window settings
         Width = WindowSettings.Width;
         Height = WindowSettings.Height;
 
@@ -18,7 +19,11 @@ public partial class MainWindow : Window
         );
         Title = WindowSettings.Title;
 
+        // styles
+        Styles.Add(new AppStyles());
+
         // views
-        Content = new DashboardView();
+        // TODO: make navigation
+        Content = new DashboardView(serviceProvider);
     }
 }

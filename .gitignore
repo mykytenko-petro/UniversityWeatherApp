@@ -4,3 +4,7 @@ obj/
 
 # editors
 .vscode
+.editorconfig
+
+# secrets / debug
+.env
