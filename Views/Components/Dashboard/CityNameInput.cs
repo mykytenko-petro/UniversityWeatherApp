@@ -11,7 +11,7 @@ using UniversityWeatherApp.ViewModels.Components.Dashboard;
 namespace UniversityWeatherApp.Views.Components.Dashboard;
 
 public class CityNameInputView
-    : Framework.Mvvm.ViewBase<StackPanel>
+    : Framework.Mvvm.ViewBase<Grid>
 {
     private readonly CityNameInputViewModel vm;
 
@@ -23,7 +23,10 @@ public class CityNameInputView
 
     protected override void LayoutStyles()
     {
-        Root.Orientation(Orientation.Horizontal);
+        Root.ColumnDefinitions = [
+            new ColumnDefinition(9, GridUnitType.Star),
+            new ColumnDefinition(1, GridUnitType.Star)
+        ];
 
         Styles.Add(
             new Style(x => x.OfType<TextBox>())
@@ -36,11 +39,12 @@ public class CityNameInputView
     {
         Root.Children(            
             new TextBox()
-                .Width(420)
+                .SetGridColumn(0)
                 .Text(new Binding("City"))
                 .Watermark("Search Location..."),
 
             new Button()
+                .SetGridColumn(1)
                 .Background(Brushes.Transparent)
 
                 .OnClick(async args => { await vm.RequestWeather(); })
