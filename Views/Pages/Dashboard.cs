@@ -1,17 +1,25 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using UniversityWeatherApp.Framework.UI;
-using UniversityWeatherApp.Framework.Utils;
 using Avalonia.Markup.Declarative;
 using UniversityWeatherApp.Framework.UI.Extensions;
 using UniversityWeatherApp.Views.Styles.Pages;
 using UniversityWeatherApp.Views.Components.Dashboard;
+using UniversityWeatherApp.ViewModels.Pages;
+using Avalonia.Data;
 
 namespace UniversityWeatherApp.Views.Pages;
 
-public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvider)
+public class DashboardView : Page
 {
-    protected override void LayoutStyles()
+    public DashboardView(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+        DataContext = new DashboardViewModel(serviceProvider);
+
+        OwnLayoutStyles();
+    }
+
+    private void OwnLayoutStyles()
     {
         RowDefinitions = [
             new RowDefinition(new GridLength(2, GridUnitType.Star)),
@@ -25,11 +33,18 @@ public class DashboardView(IServiceProvider serviceProvider) : Page(serviceProvi
             new ColumnDefinition(new GridLength(36, GridUnitType.Star))
         ];
 
-        Background = new ImageBrush
+        var brush = new ImageBrush
         {
-            Source = ResourceUtils.GetAssetBitmap("Background/Snow.png"),
             Stretch = Stretch.UniformToFill
         };
+        brush.Bind(ImageBrush.SourceProperty,
+            new Binding("Background")
+            {
+                Source = DataContext
+            }
+        );
+
+        Background = brush;
         
         Styles.Add(new DashboardStyles());
     }
