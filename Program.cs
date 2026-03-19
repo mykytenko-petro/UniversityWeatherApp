@@ -18,6 +18,7 @@ sealed class Program
         var services = new ServiceCollection();
 
         services.AddSingleton<DebugService>();
+        
         WindowPopupService windowPopupService = new();
         services.AddSingleton(windowPopupService);
 
