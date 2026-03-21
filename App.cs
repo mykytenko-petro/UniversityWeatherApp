@@ -37,6 +37,7 @@ public partial class App : Application
 
             var navigationService = Program.ServiceProvider.GetRequiredService<NavigationService>();
             navigationService.AddWindow(Program.ServiceProvider);
+            navigationService.ChangePage("Settings");
 
             desktop.MainWindow = navigationService._window;
         }
