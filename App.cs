@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using UniversityWeatherApp.Framework.Debug;
 using UniversityWeatherApp.Framework.Mvvm;
 using UniversityWeatherApp.Services;
-using UniversityWeatherApp.Views;
 
 namespace UniversityWeatherApp;
 
@@ -36,9 +35,10 @@ public partial class App : Application
         {
             DisableAvaloniaDataAnnotationValidation();
 
-            desktop.MainWindow = new MainWindow(
-                Program.ServiceProvider
-            );
+            var navigationService = Program.ServiceProvider.GetRequiredService<NavigationService>();
+            navigationService.AddWindow(Program.ServiceProvider);
+
+            desktop.MainWindow = navigationService._window;
         }
 
         base.OnFrameworkInitializationCompleted();

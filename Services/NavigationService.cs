@@ -1,19 +1,19 @@
 using Avalonia.Controls;
-using Microsoft.Extensions.DependencyInjection;
 using UniversityWeatherApp.Framework.UI;
+using UniversityWeatherApp.Views;
 using UniversityWeatherApp.Views.Pages;
 
 namespace UniversityWeatherApp.Services;
 
 public sealed class NavigationService
 {
-    private Dictionary<string, Page> Pages { get; }
+    private Dictionary<string, Page>? Pages;
 
-    private Window _window;
+    public Window? _window;
 
-    public NavigationService(IServiceProvider serviceProvider)
+    public void AddWindow(IServiceProvider serviceProvider)
     {
-        _window = serviceProvider.GetRequiredService<Window>();
+        _window = new MainWindow(serviceProvider);
 
         Pages = new Dictionary<string, Page>
         {
@@ -24,6 +24,6 @@ public sealed class NavigationService
 
     public void ChangePage(string name)
     {
-        _window.Content = Pages[name];
+        _window!.Content = Pages![name];
     }
 }
