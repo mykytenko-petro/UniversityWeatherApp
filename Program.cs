@@ -19,6 +19,7 @@ sealed class Program
 
         services.AddSingleton<DebugService>();
         services.AddSingleton<NavigationService>();
+        services.AddSingleton<StorageService>();
         
         WindowPopupService windowPopupService = new();
         services.AddSingleton(windowPopupService);
