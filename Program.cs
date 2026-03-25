@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
-using UniversityWeatherApp.Framework.Debug;
 using UniversityWeatherApp.Services;
 
 namespace UniversityWeatherApp;
@@ -14,23 +13,36 @@ sealed class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        // dependency injection setup
-        var services = new ServiceCollection();
+        SetupServices();
 
-        services.AddSingleton<DebugService>();
-        services.AddSingleton<NavigationService>();
-        services.AddSingleton<StorageService>();
-        
-        WindowPopupService windowPopupService = new();
-        services.AddSingleton(windowPopupService);
-
-        services.AddSingleton(new WeatherService(windowPopupService));
-
-        ServiceProvider = services.BuildServiceProvider();
-
-        // avalonia app setup
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
+    }
+
+    private static void SetupServices()
+    {
+        var services = new ServiceCollection();
+
+        DebugService debugService = new();
+        NavigationService navigationService = new();
+        StorageService storageService = new();
+        WindowPopupService windowPopupService = new();
+        WeatherService weatherService = new(windowPopupService);
+        ApiKeyService apiKeyService = new(
+            navigationService,
+            weatherService,
+            storageService,
+            debugService
+        );
+
+        services.AddSingleton(debugService);
+        services.AddSingleton(navigationService);
+        services.AddSingleton(storageService);
+        services.AddSingleton(windowPopupService);
+        services.AddSingleton(weatherService);
+        services.AddSingleton(apiKeyService);
+
+        ServiceProvider = services.BuildServiceProvider();
     }
 
     public static AppBuilder BuildAvaloniaApp()

@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using DotNetEnv;
 
-namespace UniversityWeatherApp.Framework.Debug;
+namespace UniversityWeatherApp.Services;
 
 public sealed class DebugService
 {

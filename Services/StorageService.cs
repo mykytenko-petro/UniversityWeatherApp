@@ -22,7 +22,7 @@ public sealed class StorageService
 
         var json = File.ReadAllText(path);
 
-        T data = JsonSerializer.Deserialize<T>(json) ?? throw new Exception("no json data");
+        T data = JsonSerializer.Deserialize<T>(json)!;
 
         return data;
     }
@@ -30,12 +30,7 @@ public sealed class StorageService
     public void WriteData<T>(string filename, T data)
     {
         var path = Path.Combine(RootPath, filename);
-
-        Console.WriteLine(path);
-
         var json = JsonSerializer.Serialize(data);
-
-        Console.WriteLine(json);
 
         File.WriteAllText(path, json);
     }

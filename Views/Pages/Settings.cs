@@ -45,8 +45,10 @@ public class SettingsView : Page
                 .Children(
                     new TextBox()
                         .SetGridColumn(0)
-                        .Text(new Binding("ApiKey"))
-                        .Watermark("set api key please"),
+                        .Watermark("set api key please")
+                        .PasswordChar('*')
+
+                        .Text(new Binding("ApiKey")),
 
                     new Button()
                         .SetGridColumn(1)

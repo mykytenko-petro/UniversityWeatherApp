@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using UniversityWeatherApp.Framework.Mvvm;
@@ -11,6 +12,9 @@ public partial class SettingsViewModel(IServiceProvider serviceProvider) : ViewM
 {
     private readonly StorageService _storageService =
         serviceProvider.GetRequiredService<StorageService>();
+
+    private readonly ApiKeyService _apiKeyService =
+        serviceProvider.GetRequiredService<ApiKeyService>();
 
     [ObservableProperty]
     private string _apiKey = "";
@@ -27,6 +31,11 @@ public partial class SettingsViewModel(IServiceProvider serviceProvider) : ViewM
                 ApiKey = ApiKey
             }
         );
+
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await _apiKeyService.Setup(); 
+        });
 
         ApiKey = "";
     }
