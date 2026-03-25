@@ -12,7 +12,7 @@ public sealed class WeatherService(WindowPopupService windowPopupService)
     private readonly RequestClient client = new();
 
     private readonly string ApiUriRoot = "https://api.openweathermap.org/data/2.5";
-    private string? ApiKey;
+    public string? ApiKey;
 
     public event Action<WeatherResponse>? OnDataUpdate;
 

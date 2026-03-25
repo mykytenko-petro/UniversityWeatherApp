@@ -23,8 +23,6 @@ public partial class DashboardViewModel : ViewModelBase
     private void UpdateData(WeatherResponse response)
     {
         var data = response.TodaysWeather;
-     
-        Console.WriteLine(data.List[0].Weather[0].Main);
 
         string nameOfImage = data.List[0].Weather[0].Main switch
         {

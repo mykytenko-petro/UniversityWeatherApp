@@ -6,7 +6,7 @@ using UniversityWeatherApp.Views.Pages;
 
 namespace UniversityWeatherApp.Views;
 
-public partial class MainWindow : Window
+public class MainWindow : Window
 {
     public MainWindow(IServiceProvider serviceProvider)
     {
@@ -22,8 +22,6 @@ public partial class MainWindow : Window
         // styles
         Styles.Add(new AppStyles());
 
-        // views
-        // TODO: make navigation
         Content = new DashboardView(serviceProvider);
     }
 }

@@ -1,39 +1,42 @@
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using UniversityWeatherApp.Framework.Mvvm;
 using UniversityWeatherApp.Models;
 using UniversityWeatherApp.Services;
 
-namespace UniversityWeatherApp.ViewModels.Components.Dashboard;
+namespace UniversityWeatherApp.ViewModels.Pages;
 
-public partial class CityNameInputViewModel(IServiceProvider serviceProvider) : ViewModelBase
+public partial class SettingsViewModel(IServiceProvider serviceProvider) : ViewModelBase
 {
-    private readonly WeatherService _weatherService =
-        serviceProvider.GetRequiredService<WeatherService>();
-
     private readonly StorageService _storageService =
         serviceProvider.GetRequiredService<StorageService>();
 
-    [ObservableProperty]
-    private string _city = "";
+    private readonly ApiKeyService _apiKeyService =
+        serviceProvider.GetRequiredService<ApiKeyService>();
 
-    public async Task RequestWeather()
+    [ObservableProperty]
+    private string _apiKey = "";
+
+    public async Task SetApiKey()
     {
-        if (City == "")
+        if (ApiKey == "")
             return;
-        
+            
         _storageService.WriteData(
             "settings.json",
             new SettingsModel()
             {
-                ApiKey = _weatherService.ApiKey!,
-                LastPickedCity = City
+                ApiKey = ApiKey
             }
         );
 
-        await _weatherService.GetWeather(City);
+        Dispatcher.UIThread.Post(async () =>
+        {
+            await _apiKeyService.Setup(); 
+        });
 
-        City = "";
+        ApiKey = "";
     }
 }
